@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\products;
+use App\Models\wishlist;
 use Illuminate\Http\Request;
 
 class ProductsController extends Controller
@@ -14,8 +15,9 @@ class ProductsController extends Controller
      */
     public function index()
     {
+        $allTeams=auth()->user()->allTeams();
         $products = products::select('*')->get();
-        return view('dashboard', compact('products'));
+        return view('dashboard', compact('products','allTeams'));
     }
 
     /**

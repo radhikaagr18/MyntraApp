@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductsController;
+use App\Http\Controllers\WishlistController;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,10 +19,10 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
-    return view('dashboard');
-})->name('dashboard');
+Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', [ProductsController::class,'index'])->name('dashboard');
 Route::get('addProduct',function () {
     return view('addProduct');
 });
 Route::post('addProducts/store', [ProductsController::class, 'store'])->name('addProductsStore');
+Route::get('currentTeamWishlist',[WishlistController::class,'index'])->name('currentTeamWishlist');
+Route::get('/addToWishlist/{product_id}/{team_id}',[WishlistController::class,'store']);

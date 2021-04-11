@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\wishlist;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class WishlistController extends Controller
 {
@@ -14,12 +15,20 @@ class WishlistController extends Controller
      */
     public function index()
     {
-        //
+
+        $products = DB::table('wishlists')
+            ->join('products', 'wishlists.product_id','=','products.id')
+            ->select('products.*', 'wishlists.*')
+            ->where('team_id', '=', auth()->user()->currentTeam->id)
+            ->get();
+        // $products= wishlist::select('*')->where('team_id', '=', auth()->user()->currentTeam->id)->get();
+
+        return view('currentTeamWishlist', compact('products'));
     }
 
     /**
      * Show the form for creating a new resource.
-     *
+     *li
      * @return \Illuminate\Http\Response
      */
     public function create()
@@ -33,9 +42,17 @@ class WishlistController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, $product_id, $team_id)
     {
-        //
+        wishlist::create([
+            'team_id'=>$team_id,
+            'product_id'=>$product_id,
+            'user_id'=>auth()->user()->id
+        ]);
+
+
+        return back()
+            ->with('success', 'Details Uploaded successfully.');
     }
 
     /**
