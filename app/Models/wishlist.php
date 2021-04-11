@@ -5,10 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class products extends Model
+class wishlist extends Model
 {
     use HasFactory;
-    protected $fillable = [
-        'name', 'price', 'discount','image'
-    ];
 }
